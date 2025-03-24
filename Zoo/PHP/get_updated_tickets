@@ -1,0 +1,42 @@
+<?php
+include 'db_connection.php'; // Include your database connection file here.
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['dayOfWeek'])) { // Check if the form has been submitted.
+    $conn = get_database_connection(); // Get a connection to the database.
+    $dayOfWeek = $_POST['dayOfWeek']; // Get the day of the week from the form.
+
+   
+    function getClassDataForDay($conn, $dayOfWeek) { // Define a function to get the class data for a given day of the week.
+        $sql = "SELECT 
+                    gc.class_id, 
+                    cn.name AS class_name, 
+                    ins.name AS instructor_name,
+                    ct.class_time
+                FROM gym_class gc
+                JOIN class_names cn ON gc.class_name_id = cn.class_name_id
+                JOIN ins ins ON gc.class_instructor_id = ins.instructor_id
+                JOIN days d ON gc.class_day_id = d.days_id
+                 JOIN class_times ct ON gc.class_time_id = ct.class_time_id
+                WHERE d.name = ?";
+        
+        $stmt = $conn->prepare($sql); // Prepare the SQL statement.
+        $stmt->bind_param("s", $dayOfWeek); // Bind the day of the week to the SQL statement.
+        $stmt->execute(); // Execute the SQL statement.
+        $result = $stmt->get_result(); // Get the result of the SQL statement.
+    
+        $classes = []; // Initialize an empty array to store the class data.
+        if ($result->num_rows > 0) {// If there are rows in the result.
+            while ($row = $result->fetch_assoc()) { // Loop through each row in the result.
+                $classes[] = $row; // Add the row to the array.
+            }
+        }
+        $stmt->close(); // Close the SQL statement.
+        return $classes; // Return the array of class data.
+    }
+    $classes = getClassDataForDay($conn, $dayOfWeek); // Call the function to get the class data for the given day of the week.
+
+    header('Content-Type: application/json'); // Set the content type to JSON.
+    echo json_encode($classes); // Output the class data as JSON.
+    $conn->close(); // Close the database connection.
+}
+?>

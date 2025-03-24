@@ -1,0 +1,158 @@
+/* Values used for various colour and font settings*/
+
+:root{
+    --font-size-p: 1rem; /* font size for paragraph */
+    --font-size-h1: 3rem; /* font size for header 1 */
+    --font-size-navbar: 0.95rem; /* font size for navbar (not utilised in this example) */
+    --font-family:'PT Sans'; /* font family (change to other fonts if you need) */
+    --underline1: none; /* underline style for links (for links that can be underlined) */
+    --underline2: underline; /* underline style for links (for links that will always be underlined) */
+    --text: #f4f4f4; /* text colour */
+    --text-black: #000000; /* text colour (black) */
+    --black: #000000; /* black colour */
+    --a:#ffffff; /* link colour */
+    --a2: #000000; /* link colour (black) */
+    --a-clicked: #0fbfe4; /* link colour when clicked */
+    --a-visited: #e49f0f; /* link colour when visited */
+    --navbar: #333; /* navbar background (not utilised in this example) */
+    --hover: #555; /* hover background */
+    --button: #0fbfe4; /* button background */
+    --button-pressed: #000; /* button background when pressed */
+    --button-bg: #e49f0f; /* button background */
+    --box1: #e0f7fa; /* box background */
+    --box2: #ffe0b2; /* box background */
+    --box3: #f8bbd0; /* box background */
+    --box4: #d1c4e9; /* box background */
+    --high-contrast-black: transparent; /* black colour to be used when high contrast mode is on */
+    --a-decoration: none; /* link decoration */
+}
+
+/* Setting the font and basic styles */
+body {
+    font-family: var(--font-family); /* set font family */
+    font-weight: 400; /* set font weight */
+    color: var(--text-black); /* set text colour */
+}
+
+a {
+    color: var(--a2);
+    border-style: var(--a-decoration); /* set link decoration */
+    border-color: var(--a); /* set link colour */
+    border-width: 3px; /* set link border width */
+}
+
+a:hover{ /* hover effect for links */
+    border-color: var(--a-clicked); /* change link colour when hovered */
+}
+
+body, ul, li { /* setting the font size for paragraphs */
+    margin: 0; /* remove margin */
+    padding: 0; /* remove padding */
+    box-sizing: border-box; /* set box sizing */
+}
+
+/*accessibility menu styles*/
+.accessibility { 
+    width: 9rem;
+    position: fixed; 
+    bottom: 0%;
+    z-index: 1; /* set z-index to 1 so that it will be on top of other elements */
+    left: 0;
+    background-color: var(--navbar);
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    text-wrap: nowrap;
+  }
+
+
+  .accessibility a { 
+    background-color: var(--navbar);
+    padding: 8px 8px 8px 8px;
+    text-decoration: var(--underline1);
+    font-size: var(--font-size-p2);
+    color: var(--a);
+    display: block;
+    transition: 0.3s;
+    cursor: pointer;
+  }
+  
+  .accessibility a:hover {
+    background-color: var(--hover);
+    border-radius: 5px;
+    color: var(--a-clicked);
+  }
+  
+  .accessibility .closebtn {
+    position: absolute; 
+    top: 10px;
+    right: 25px;
+    font-size: var(--font-size-p2);
+    margin-left: 50px;
+    color: var(--text);
+    text-decoration: var(--underline1);
+    padding: 2px 5px 2px 5px;
+  }
+
+  .accessibility .closebtn:hover {
+    color: var(--a-clicked);
+  }
+  
+  .accessibility_btn {
+    position: fixed; /* Ensures that it will always be visible on the screen in the same position */
+    bottom: 4.5%;
+    font-size: var(--font-size-p2);
+    cursor: pointer;
+    background-color: var(--navbar);
+    color: var(--text);
+    padding: 10px 15px;
+    border: none;
+  }
+  
+  .accessibility_btn:hover {
+    background-color: var(--navbar);
+  }
+  
+  #accessibility_main {
+    position: absolute;
+    transition: margin-left .5s;
+  }
+
+/* cookie consent*/
+#cookie-overlay{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background-color:rgba(0,0,0,0.8);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+#cookie-overlay h1 {
+    color:var(--text);
+    font-size: var(--font-size-h1);
+}
+
+#cookie-overlay p {
+    text-align: center;
+    color:var(--text);
+    font-size: var(--font-size-p2);
+}
+
+#cookie-accept {
+    position: inherit;
+    font-size: var(--font-size-p2);
+    cursor: pointer;
+    background-color: transparent;
+    color: var(--button);
+    padding: 15px 100px 15px 100px;
+    border: 5px solid var(--button);
+    border-radius: 10px;
+    transition: 0.3s;
+  }
