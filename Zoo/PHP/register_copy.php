@@ -31,22 +31,10 @@ function is_username_taken($conn, $username)
     return $result && $result->num_rows > 0;
 }
 
-/**
- * Creates a new user in the database.
- *
- * @param mysqli $conn The database connection.
- * @param string $username The username.
- * @param string $password The password (hashed).
- * @param string $firstname The first name.
- * @param string $surname The surname.
- * @param string $email The email address.
- * @param string $mobile The mobile phone number.
- *
- * @return int|false The user ID if successful, false otherwise.
- */
-function create_user($conn, $username, $password, $firstname, $surname, $email, $mobile, $address_line_1, $address_line_2, $city, $postal_code, $date_recorded)
+
+function create_user($conn, $username, $password, $firstname, $surname, $email, $mobile, $address_line_1, $address_line_2, $city, $postal_code)
 {
-    $sql = "INSERT INTO user_details (username, password, firstname, surname, email, mobile, address_line_1, address_line_2, city, postal_code date_recorded) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+    $sql = "INSERT INTO user_details (username, password, firstname, surname, email, mobile, address_line_1, address_line_2, city, postal_code) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
 
     if (!$stmt) {
@@ -54,7 +42,7 @@ function create_user($conn, $username, $password, $firstname, $surname, $email, 
         return false; // Indicate failure
     }
 
-    $stmt->bind_param("ssssssssssss", $username, $password, $firstname, $surname, $email, $mobile, $address_line_1, $address_line_2, $city, $postal_code, $date_recorded)
+    $stmt->bind_param("ssssssssss", $username, $password, $firstname, $surname, $email, $mobile, $address_line_1, $address_line_2, $city, $postal_code);
     $success = $stmt->execute();
     $stmt->close();
 
@@ -67,12 +55,7 @@ function create_user($conn, $username, $password, $firstname, $surname, $email, 
     }
 }
 
-/**
- * Sets session variables and redirects to the dashboard.
- *
- * @param int $user_id The user ID.
- * @param string $username The username.
- */
+
 function set_session_and_redirect($user_id, $username)
 {
     $_SESSION['user_id'] = $user_id;
@@ -188,10 +171,10 @@ function handle_registration($conn)
     $surname = $_POST["surname"];
     $email = $_POST["email"];
     $mobile = $_POST["mobile"];
-    $address_line_1 = $data["address_line_1"];
-    $address_line_2 = $data["address_line_2"];
-    $city = $data["city"];
-    $postal_code = $data["postal_code"];
+    $address_line_1 = $_POST["address_line_1"];
+    $address_line_2 = $_POST["address_line_2"];
+    $city = $_POST["city"];
+    $postal_code = $_POST["postal_code"];
 
     if (is_username_taken($conn, $username)) {
         display_error_and_redirect("Username already exists. Please choose another.");
