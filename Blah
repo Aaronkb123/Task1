@@ -1,0 +1,40 @@
+import pandas as pd
+
+import matplotlib.pyplot as plt
+
+import seaborn as sns
+ 
+# Step 1: Read the dataset
+
+df = pd.read_csv("Rainfall_Data_Germany_Complete(in).csv")
+ 
+# Step 2: Add a simple index-based key column
+
+df['Record_ID'] = df.index + 1
+ 
+# Step 3: Filter the data for Berlin
+
+berlin_df = df[df['City'] == 'Berlin']
+ 
+# Step 4: Group by Month and calculate average rainfall
+
+monthly_avg = berlin_df.groupby('Month')['Rainfall (mm)'].mean().reset_index()
+ 
+# Step 5: Plot the bar chart with custom colors
+
+plt.figure(figsize=(10, 6))
+
+colors = sns.color_palette("coolwarm", len(monthly_avg))
+
+sns.barplot(x='Month', y='Rainfall (mm)', data=monthly_avg, palette=colors)
+
+plt.title("Average Monthly Rainfall in Berlin")
+
+plt.xlabel("Month")
+
+plt.ylabel("Rainfall (mm)")
+
+plt.tight_layout()
+
+plt.show()
+
